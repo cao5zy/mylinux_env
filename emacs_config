@@ -1,0 +1,20 @@
+;; jump every 5 lines
+(global-set-key (kbd "C-M-n")
+  (lambda () (interactive) (next-line 5)))
+   (global-set-key (kbd "C-M-p")
+    (lambda () (interactive) (previous-line 5)))
+
+;; save and delete line  without selection
+(defadvice kill-ring-save (before slickcopy activate compile)
+  (interactive
+     (if mark-active (list (region-beginning) (region-end))
+          (list (line-beginning-position)
+	             (line-beginning-position 2)))))
+		     (defadvice kill-region (before slickcut activate compile)
+		       (interactive
+		          (if mark-active (list (region-beginning) (region-end))
+			       (list (line-beginning-position)
+			                  (line-beginning-position 2)))))
+
+;; set the line number
+(global-linum-mode 1) ; always show line numbers
